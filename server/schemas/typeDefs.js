@@ -16,7 +16,7 @@ type Book {
   description: String
   title: String
   image: String
-  link: string
+  link: String
 }
 
 
@@ -26,7 +26,7 @@ input BookInput {
   description: String!
   title: String!
   image: String
-  link: string
+  link: String
 }
 
 type Query {
