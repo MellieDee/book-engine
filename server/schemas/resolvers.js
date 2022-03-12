@@ -79,6 +79,12 @@ const resolvers = {
       throw new AuthenticationError('You need to be logged in!');
     },
 
+
+    deleteBook: async (parent, args, context) => {
+
+
+    }
+
   }
 }
 
