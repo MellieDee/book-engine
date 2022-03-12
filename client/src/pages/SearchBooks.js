@@ -1,9 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Jumbotron, Container, Col, Form, Button, Card, CardColumns } from 'react-bootstrap';
+import { useMutation } from '@apollo/client';
+import {
+  Jumbotron,
+  Container,
+  Col,
+  Form,
+  Button,
+  Card,
+  CardColumns
+} from 'react-bootstrap';
 
 import Auth from '../utils/auth';
-import { saveBook, searchGoogleBooks } from '../utils/API';
+import { SAVE_BOOK } from '../utils/mutations'
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
+
 
 const SearchBooks = () => {
   // create state for holding returned google api data
@@ -20,7 +30,11 @@ const SearchBooks = () => {
     return () => saveBookIds(savedBookIds);
   });
 
-  // create method to search for books and set state on form submit
+
+
+  //-----------------------   SEARCH books Starts  ---------------------
+
+  // create method to search for books & SET STATE on form submit
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
@@ -29,10 +43,14 @@ const SearchBooks = () => {
     }
 
     try {
-      const response = await searchGoogleBooks(searchInput);
+
+      // search Google api - example format: 
+      // https://www.googleapis.com/books/v1/volumes?q=harry+potter
+      const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchInput}`);
+
 
       if (!response.ok) {
-        throw new Error('something went wrong!');
+        throw new Error('Something went wrong!');
       }
 
       const { items } = await response.json();
@@ -51,6 +69,10 @@ const SearchBooks = () => {
       console.error(err);
     }
   };
+  //  ------------------SEARCH book Ends  ---------------------------------
+
+
+  //  ------------------SAVE book Starts  ---------------------------------
 
   // create function to handle saving a book to our database
   const handleSaveBook = async (bookId) => {
@@ -65,11 +87,11 @@ const SearchBooks = () => {
     }
 
     try {
-      const response = await saveBook(bookToSave, token);
+      const { data } = await saveBook({
+        variables: { bookData: { ...bookToSave } },
+      })
 
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
+      console.log(savedBookIds)
 
       // if book successfully saves to user's account, save book id to state
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);

@@ -1,20 +1,18 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import SearchBooks from './pages/SearchBooks';
-import SavedBooks from './pages/SavedBooks';
-import Navbar from './components/Navbar';
-
+import { InMemoryCache, setContext } from '@apollo/client';
 
 import {
   ApolloClient,
+  InMemoryCache,
   ApolloProvider,
   createHttpLink
 } from '@apollo/client';
 
-
-
-
-
+// ----------------- Pages ------------------
+import Navbar from './components/Navbar';
+import SearchBooks from './pages/SearchBooks';
+import SavedBooks from './pages/SavedBooks';
 
 
 // establish new link to GQL server @ endpoint
@@ -25,13 +23,19 @@ const httpLink = createHttpLink({
 
 // setContext() to get token from LStorage & set HTTP req headers
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItme('id_token');
+  const token = localStorage.getItem('id_token');
   return {
     headers: {
       ...headers,
       authoriztaion: token ? `Bearer ${token}` : '',
     },
   };
+});
+
+// use Apollo Client to instantiate Client instance and create connection to endpoint
+const cient = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
 });
 
 

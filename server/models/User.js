@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
-const Book = require('./Book')
+const bookSchema = require('./Book');
 
 
 const userSchema = new Schema(
@@ -23,7 +23,7 @@ const userSchema = new Schema(
       minlength: 5
     },
     //set savedBooks to be an array of data that adheres to the bookSchema
-    savedBooks: [Book]
+    savedBooks: [bookSchema]
   },
   // set this to use virtual below
   {
