@@ -63,12 +63,13 @@ const resolvers = {
     },
 
 
+    //  ------------------- DELETE user Starts -------------------
     deleteUser: async (parent, args, context) => {
-
       return User.findOneAndDelete(
         { _id: context.user._id }
       )
     },
+
 
 
     // -------------------SAVE Book Starts  ------------------------
@@ -92,9 +93,12 @@ const resolvers = {
     // ----------------  DELETE Book Starts -----------------
     deleteBook: async (parent, { bookId }, context) => {
       if (context.user) {
-        const updatedUser = await User.findByIdAndUpdate(
-          { _id: context.user_id },
-          { $pull: { savedBooks: bookId } },
+
+        console.log(context.user._id)
+
+        const updatedUser = await User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $pull: { savedBooks: { bookId } } },
           { new: true }
         );
         return updatedUser

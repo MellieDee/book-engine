@@ -1,3 +1,11 @@
+#### References I used or was inspired by
+
+https://www.geeksforgeeks.org/mongoose-findbyidandupdate-function/
+
+https://masteringjs.io/tutorials/mongoose/findoneandupdate
+
+https://codeburst.io/a-simple-guide-to-destructuring-and-es6-spread-operator-e02212af5831
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

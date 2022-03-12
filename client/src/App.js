@@ -10,7 +10,7 @@ import {
 } from '@apollo/client';
 
 // ----------------- Pages ------------------
-import Navbar from './components/Navbar';
+import Navbar from './components/Navbar/Navbar';
 import SearchBooks from './pages/SearchBooks';
 import SavedBooks from './pages/SavedBooks';
 
