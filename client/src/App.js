@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { InMemoryCache, setContext } from '@apollo/client';
-
+import { setContext } from '@apollo/client/link/context';
 import {
   ApolloClient,
   InMemoryCache,
@@ -10,7 +9,7 @@ import {
 } from '@apollo/client';
 
 // ----------------- Pages ------------------
-import Navbar from './components/Navbar/Navbar';
+import Navbar from './components/Navbar';
 import SearchBooks from './pages/SearchBooks';
 import SavedBooks from './pages/SavedBooks';
 
@@ -32,13 +31,14 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
-// use Apollo Client to instantiate Client instance and create connection to endpoint
-const cient = new ApolloClient({
+// use Apollo Client constructor() to instantiate Client instance of AC and create connection to endpoint
+const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
 
-
+// Enable whole app to use Apollo Client
+// Wrap the app in ApolloProvider - cllient var is the prop so everything in JSX has access to server/ data through the Client Prop
 function App() {
   return (
     <ApolloProvider client={client}>
